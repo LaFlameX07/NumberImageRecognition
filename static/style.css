@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+}
+
+.container {
+    width: 60%;
+    margin: auto;
+    overflow: hidden;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.upload-section {
+    margin: 20px 0;
+}
+
+.result-section {
+    margin: 20px 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.metrics-section {
+    margin: 20px 0;
+    text-align: left;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
