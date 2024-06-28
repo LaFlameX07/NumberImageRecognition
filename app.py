@@ -13,6 +13,9 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 model = load_model('model/digit_recognition.h5')
+UPLOAD_FOLDER = os.path.join('static', 'uploads')
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
 # Recompile the model after loading
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
@@ -47,13 +50,16 @@ def predict():
         return redirect(request.url)
     
     if file:
-        img_bytes = io.BytesIO(file.read())
-        img = load_img(img_bytes, color_mode='grayscale', target_size=(28, 28))
+        file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        file.save(file_path)
+        img = load_img(file_path, color_mode='grayscale', target_size=(28, 28))
+        """img_bytes = io.BytesIO(file.read())
+        img = load_img(img_bytes, color_mode='grayscale', target_size=(28, 28))"""
         img_array = img_to_array(img).reshape(1, 28, 28, 1).astype('float32') / 255
         prediction = model.predict(img_array)
         predicted_class = np.argmax(prediction)
         image_path = os.path.join('uploads', file.filename)
-        return render_template('result.html', predicted_class=predicted_class, image_path=file.filename)
+        return render_template('result.html', predicted_class=predicted_class, image_path=f'uploads/{file.filename}')
     
     return redirect(request.url)
 
